@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
     "bcrypt": "^5.1.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.20.0",
+    "brew": "^0.0.8",
     "clarifai": "^2.9.1",
     "clarifai-nodejs-grpc": "^8.0.0",
     "cors": "^2.8.5",
@@ -20,7 +21,8 @@
     "pg": "^8.8.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "webpack": "^5.86.0"
   },
   "description": ""
 }
