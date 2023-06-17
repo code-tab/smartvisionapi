@@ -8,16 +8,18 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-
+const PORT = process.env.PORT || 4000;
 const db = knex({
   // connect to your own database here:
   client: 'pg',
   connection: {
-    host : 'localhost',
-    user : 'postgres',
+    connectionString : process.env.DATABASE_URL,
+    ssl: {rejectUnauthorized: false},
+    host: process.env.DATABASE_HOST,
     port : 5432,
-    password : 'db@12345',
-    database : 'smart-brain'
+    user : process.env.DATABASE_USER,
+    password: process.env.DATABASE_PW,
+    database : process.env.DATABASE_DB
   }
 });
 
@@ -36,6 +38,6 @@ app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db)})
 app.put('/image', (req, res) => { image.handleImage(req, res, db)})
 app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
 
-app.listen(4000, ()=> {
-  console.log('app is running on port 4000');
+app.listen(process.env.PORT || 4000, ()=> {
+  console.log('app is running on port $(PORT)');
 })
