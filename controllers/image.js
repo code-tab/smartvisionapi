@@ -65,7 +65,7 @@ stub.PostModelOutputs(
 //     })
 //     .catch(err => res.status(400).json('unable to get entries'));
 // };
-//updated code
+//updated code now it is working and updation entries shown here thats great
 const handleImage = (req, res, db) => {
   const { id } = req.body;
   db.transaction(trx => {
