@@ -54,16 +54,37 @@ stub.PostModelOutputs(
 //     .catch(err => res.status(400).json('unable to work with API'));
  };
 
+// const handleImage = (req, res, db) => {
+//   const { id } = req.body;
+//   db('users')
+//     .where('id', '=', id)
+//     .increment('entries', 1)
+//     .returning('entries')
+//     .then(entries => {
+//       res.json(entries[0]);
+//     })
+//     .catch(err => res.status(400).json('unable to get entries'));
+// };
+//updated code
 const handleImage = (req, res, db) => {
   const { id } = req.body;
-  db('users')
-    .where('id', '=', id)
-    .increment('entries', 1)
-    .returning('entries')
-    .then(entries => {
-      res.json(entries[0]);
-    })
-    .catch(err => res.status(400).json('unable to get entries'));
+  db.transaction(trx => {
+    trx('users')
+      .where('id', '=', id)
+      .increment('entries', 1)
+      .returning('entries')
+      .then(([entries]) => {
+        return trx('users')
+          .where('id', '=', id)
+          .select('entries')
+          .then(([user]) => {
+            res.json(user.entries);
+          });
+      })
+      .then(trx.commit)
+      .catch(trx.rollback);
+  })
+    .catch(err => res.status(400).json('unable to update entry count'));
 };
 
 // Extracts the face coordinates from the Clarifai API response
